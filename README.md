@@ -1,6 +1,6 @@
 # Dynamic Action Example with Sherry SDK in Next.js
 
-This project is an example of how to implement a "Dynamic Action" using the [Sherry SDK](https://docs.sherry.pro/) within a Next.js application. It demonstrates how to expose metadata for an action and how to handle the execution of that action.
+This project is an example of how to implement a "Dynamic Action" using the [Sherry SDK](https://docs.sherry.social/) within a Next.js application. It demonstrates how to expose metadata for an action and how to handle the execution of that action.
 
 ## Features
 
@@ -130,7 +130,7 @@ This example uses `@sherrylinks/sdk` for:
 *   `createMetadata`: To validate and help structure the metadata object for the action.
 *   Types like `Metadata`, `ValidatedMetadata`, and `ExecutionResponse` to ensure correct data shaping.
 
-Consult the [official Sherry documentation](https://docs.sherry.pro/) for more details on creating and integrating actions.
+Consult the [official Sherry documentation](https://docs.sherry.social/) for more details on creating and integrating actions.
 
 ## Contributing
 
