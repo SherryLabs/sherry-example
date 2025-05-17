@@ -79,7 +79,7 @@ This file (`app/api/example/route.ts`) defines the handlers for the dynamic acti
         "actions": [
             {
                 "type": "dynamic",
-                "label": "SEND ME MONEY", // Label for the button/action
+                "label": "Store Message", // Label for the button/action
                 "description": "Store your message with a custom timestamp calculated for optimal storage",
                 "chains": { "source": "fuji" }, // Source chain
                 "path": "/api/example", // Path of the POST endpoint to execute the action

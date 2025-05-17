@@ -19,7 +19,7 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
             actions: [
                 {
                     type: "dynamic",
-                    label: "SEND ME MONEY",
+                    label: "Store Message",
                     description:
                         "Store your message with a custom timestamp calculated for optimal storage",
                     chains: { source: "fuji" },
