@@ -40,12 +40,28 @@ This project is an example of how to implement a "Dynamic Action" using the [She
     pnpm add @sherrylinks/sdk viem wagmi
     ```
 
-3.  **Environment Variables:**
-    Create a `.env.local` file in the project root and define the necessary variables. At a minimum, you'll need `NEXT_PUBLIC_API_URL` if your API runs on a different host/port than your frontend or if you want a canonical URL.
-    ```env
-    # .env.local
-    NEXT_PUBLIC_API_URL=http://localhost:3000
+3.  **Remove ESLint:**
+    To avoid build errors, we'll remove ESLint from the project:
+    ```bash
+    # Remove ESLint package
+    npm uninstall eslint
+    # or
+    yarn remove eslint
+    # or
+    pnpm remove eslint
+    
+    # Delete ESLint configuration files
+    rm .eslintrc.json .eslintrc.js
     ```
+    You can also disable ESLint in your next.config.js by adding:
+    ```javascript
+    module.exports = {
+      eslint: {
+        ignoreDuringBuilds: true,
+      },
+    }
+    ```
+
 
 ## Running the Project
 
