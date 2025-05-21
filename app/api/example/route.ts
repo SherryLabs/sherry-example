@@ -3,9 +3,7 @@ import { avalancheFuji } from "viem/chains";
 import { createMetadata, Metadata, ValidatedMetadata, ExecutionResponse } from "@sherrylinks/sdk";
 import { serialize } from 'wagmi'
 
-export async function GET(_req: NextRequest, _res: NextResponse) {
-    // Contract address - must match the address in the POST endpoint
-    const CONTRACT_ADDRESS = "0xYourContractAddressHere";
+export async function GET() {
 
     try {
         const metadata: Metadata = {
@@ -47,7 +45,8 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
                 "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
             },
         });
-    } catch (error) {
+    } catch (e) {
+        console.error("Error creating metadata:", e);
         return NextResponse.json(
             { error: "Failed to create metadata" },
             { status: 500 }
@@ -55,7 +54,7 @@ export async function GET(_req: NextRequest, _res: NextResponse) {
     }
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
 
         const { searchParams } = new URL(req.url);
