@@ -7,7 +7,7 @@ import { abi } from "@/blockchain/abi";
 // Contract address 
 const CONTRACT_ADDRESS = "0x75dd8326F5293ff1f1f4E013c8Fda20db126f3e3";
 
-export async function GET(req: NextRequest, _res: NextResponse) {
+export async function GET(req: NextRequest) {
     try {
         const host = req.headers.get('host') || 'localhost:3000';
         const protocol = req.headers.get('x-forwarded-proto') || 'http';
@@ -61,7 +61,7 @@ export async function GET(req: NextRequest, _res: NextResponse) {
     }
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
     try {
 
         const { searchParams } = new URL(req.url);
