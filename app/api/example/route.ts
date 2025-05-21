@@ -2,18 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { avalancheFuji } from "viem/chains";
 import { createMetadata, Metadata, ValidatedMetadata, ExecutionResponse } from "@sherrylinks/sdk";
 import { serialize } from 'wagmi'
+import { abi } from "@/blockchain/abi";
 
-export async function GET(_req: NextRequest, _res: NextResponse) {
-    // Contract address - must match the address in the POST endpoint
-    const CONTRACT_ADDRESS = "0xYourContractAddressHere";
+// Contract address 
+const CONTRACT_ADDRESS = "0x75dd8326F5293ff1f1f4E013c8Fda20db126f3e3";
 
+export async function GET(req: NextRequest, _res: NextResponse) {
     try {
+        const host = req.headers.get('host') || 'localhost:3000';
+        const protocol = req.headers.get('x-forwarded-proto') || 'http';
+        
+        // Construct the base URL
+        const serverUrl = `${protocol}://${host}`;
+
         const metadata: Metadata = {
-            url: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-                }/api/dynamic-action`,
+            url: "https://sherry.social",
             icon: "https://avatars.githubusercontent.com/u/117962315",
             title: "Timestamped Message",
-            baseUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
+            baseUrl: serverUrl,
             description:
                 "Store a message with an optimized timestamp calculated by our algorithm",
             actions: [
@@ -75,10 +81,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
             );
         }
         
+        /*
         const tx = {
             to: '0x5ee75a1B1648C023e885E58bD3735Ae273f2cc52',
             value: BigInt(1000000),
             chainId: avalancheFuji.id,
+        }
+        */
+
+        const tx = {
+            address: CONTRACT_ADDRESS,
+            abi: abi,
+            functionName: "storeMessage",
+            args: [message, Math.floor(Date.now() / 1000)],
         }
 
         const serialized = serialize(tx)
@@ -118,4 +133,26 @@ export async function OPTIONS(request: NextRequest) {
         },
     });
 }
+
+// Function to calculate an optimized timestamp based on the message
+function calculateOptimizedTimestamp(message: string): bigint {
+    // Get the current timestamp as a starting point
+    const currentTimestamp = BigInt(Math.floor(Date.now() / 1000));
+    
+    // Basic algorithm: Add the character codes of the message to create a custom offset
+    // This is a simple example - you could implement more complex logic
+    let offset = BigInt(0);
+    
+    for (let i = 0; i < message.length; i++) {
+      // Sum character codes and use position as a multiplier
+      offset += BigInt(message.charCodeAt(i) * (i + 1));
+    }
+    
+    // Ensure offset is reasonable (1 hour max)
+    const maxOffset = BigInt(3600);
+    offset = offset % maxOffset;
+    
+    // Calculate optimized timestamp
+    return currentTimestamp + offset;
+  }
 
