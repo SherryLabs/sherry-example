@@ -3,15 +3,20 @@ import { avalancheFuji } from "viem/chains";
 import { createMetadata, Metadata, ValidatedMetadata, ExecutionResponse } from "@sherrylinks/sdk";
 import { serialize } from 'wagmi'
 
-export async function GET() {
+export async function GET(req: NextRequest) {
 
     try {
+        const host = req.headers.get('host') || 'localhost:3000';
+        const protocol = req.headers.get('x-forwarded-proto') || 'http';
+        
+        // Construct the base URL
+        const serverUrl = `${protocol}://${host}`;
+
         const metadata: Metadata = {
-            url: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
-                }/api/dynamic-action`,
+            url: "https://sherry.social",
             icon: "https://avatars.githubusercontent.com/u/117962315",
             title: "Timestamped Message",
-            baseUrl: process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000",
+            baseUrl: serverUrl,
             description:
                 "Store a message with an optimized timestamp calculated by our algorithm",
             actions: [
