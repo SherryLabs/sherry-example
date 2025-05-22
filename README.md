@@ -140,13 +140,17 @@ You have several options to test your dynamic action:
 
 ### Option 1: Sherry Social Platform
 1. Visit [https://app.sherry.social/home](https://app.sherry.social/home)
-2. Enter your endpoint URL in the address field: `http://localhost:3000/api/example`
+2. Enter your endpoint URL:
+   - **During development**: `http://localhost:3000/api/example` (only works if your local server is publicly accessible)
+   - **After deployment**: Use your actual deployed URL (e.g., `https://your-app-name.vercel.app/api/example`)
 3. The platform will automatically render your mini app
+
+> **Important**: The localhost URL is only provided as a reference. For actual integration with the Sherry platform, you must deploy your application and use the public URL. The Sherry platform cannot access your localhost unless you're using a tunneling service.
 
 ### Option 2: Sherry Debugger (Recommended for Development)
 1. Go to [https://app.sherry.social/debugger](https://app.sherry.social/debugger)
 2. Test using one of three methods:
-   - **URL**: Paste your GET endpoint URL
+   - **URL**: Paste your GET endpoint URL (localhost during development, deployed URL in production)
    - **JSON**: Copy and paste the metadata JSON
    - **TypeScript**: Paste your TypeScript code directly
 
@@ -160,11 +164,12 @@ You have several options to test your dynamic action:
    ```
 
 2. **Verify GET Endpoint**:
-   - Navigate to `http://localhost:3000/api/example`
+   - Navigate to `http://localhost:3000/api/example` locally
+   - After deployment, use your deployed URL (e.g., `https://your-app-name.vercel.app/api/example`)
    - Confirm you see the metadata JSON response
 
 3. **Test in Debugger**:
-   - Use URL: `http://localhost:3000/api/example`
+   - Use appropriate URL based on environment (local or deployed)
    - Verify input fields render correctly
    - Test form completion and submission
 
