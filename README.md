@@ -101,6 +101,13 @@ The application will be available at `http://localhost:3000`. The API endpoint w
 }
 ```
 
+> **Important**: Note that `baseUrl` is automatically derived from the request headers. During development, it will use `http://localhost:3000`, but when deployed, it will use your production domain. This happens automatically through:
+> ```typescript
+> const host = req.headers.get('host') || 'localhost:3000';
+> const protocol = req.headers.get('x-forwarded-proto') || 'http';
+> const serverUrl = `${protocol}://${host}`;
+> ```
+
 ### `POST /api/example` - Action Execution
 
 **Purpose**: Executes the dynamic action, processes parameters, and returns a serialized transaction.
@@ -198,12 +205,31 @@ You have several options to test your dynamic action:
 
 - `createMetadata`: Validates and structures metadata objects
 - `Metadata`, `ValidatedMetadata`, `ExecutionResponse`: TypeScript types for proper data handling
+  - `ExecutionResponse` is specifically used to type the transaction response, ensuring the proper format: 
+    ```typescript
+    const resp: ExecutionResponse = {
+        serializedTransaction: serialized,
+        chainId: avalancheFuji.name,
+    }
+    ```
 - Parameter validation and processing
 
 ### Blockchain Integration
 
 - **viem**: Provides chain configurations (Avalanche Fuji)
 - **wagmi**: Handles transaction serialization
+  - The `serialize` function from wagmi is used to convert a transaction object into a serialized format:
+    ```typescript
+    import { serialize } from 'wagmi'
+    
+    const tx = {
+        to: '0x5ee75a1B1648C023e885E58bD3735Ae273f2cc52',
+        value: BigInt(1000000),
+        chainId: avalancheFuji.id,
+    }
+    
+    const serialized = serialize(tx)
+    ```
 - Support for multiple blockchain networks
 
 ### CORS Implementation
